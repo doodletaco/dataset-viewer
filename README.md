@@ -1,11 +1,45 @@
 # Database Viewer (working title)
 
+Dataset Viewer is a tool to open and explore Parquet files in the terminal.
+It is cross platform and has features to filter the output.
+
 ## Getting Started
 
-TODO Need a better explanation here.
+This project uses [Pipenv](https://pipenv.pypa.io/en/latest/) for package management.
+Follow these steps to get the project on your system and running.
 ```shell
-pip install https://github.com/Brokames/ParquetVisualizer.git
+# Install the repository.
+$ pip install https://github.com/doodletaco/dataset-viewer.git
+
+# Create virtual environment and install dependencies
+$ pipenv install --dev
+
+# Activate the virtual environment
+$ pipenv shell
 ```
+
+To open the project, use the following command:
+```shell
+$ python -m dbv.cli <filename>
+```
+
+## Using the Project
+This project uses keyboard commands for navigation in both the menus and the table.
+
+**Mode Commands**  
+`s` : Show a summary of the database  
+`t` : Show the database as a table  
+`q` : Quit  
+`?` : Help
+
+**Table Commands**  
+`/` : Open filter mode  
+`h` : Scroll left  
+`j` : Scroll down  
+`k` : Scroll up  
+`l` : Scroll right  
+`g` : Go to top  
+`G` : Go to bottom  
 
 ## Contributing
 
