@@ -6,6 +6,9 @@
 
 Dataset Viewer is a cross-platform tool for visually exploring Parquet files in the terminal.
 ## Demo
+
+View the demo [on YouTube](https://youtu.be/X5bcZYpqKnA)!
+
 ```shell
 # View the userdata1.parquet file with dataset viewer
 $ dbv userdata1.parquet
