@@ -1,47 +1,85 @@
-# Database Viewer (working title)
 
-Dataset Viewer is a tool to open and explore Parquet files in the terminal.
-It is cross platform and has features to filter the output.
+![Logo](docs/pangolin_logo_black_text.png)
 
-## Getting Started
+    
+# Dataset Viewer
 
-This project uses [Pipenv](https://pipenv.pypa.io/en/latest/) for package management.
-Follow these steps to get the project on your system and running.
+Dataset Viewer is a cross-platform tool for visually exploring Parquet files in the terminal.
+## Demo
 ```shell
-# Install the repository.
-$ pip install https://github.com/doodletaco/dataset-viewer.git
-
-# Create virtual environment and install dependencies
-$ pipenv install --dev
-
-# Activate the virtual environment
-$ pipenv shell
+# View the userdata1.parquet file with dataset viewer
+$ dbv userdata1.parquet
 ```
 
-To open the project, use the following command:
-```shell
-$ python -m dbv.cli <filename>
+![table view](docs/table.png)
+
+View the available commands by pressing `?`
+
+![help view](docs/help.png)
+
+View a summary of the table by pressing `s`
+
+![summary view](docs/summary.png)
+
+Go back to the table view at any time by pressing `t` then show only the last 10 `id`s using the filter command `/`.
+
+![filtered table](docs/filtered.png)
+
+See the [usage](#usage) section below for more information about the available commands.
+
+## Usage
+
+```
+Usage: dbv [OPTIONS] FILENAME
+
+  View the parquet format file FILENAME as a table
+
+Options:
+  --help  Show this message and exit.
 ```
 
-## Using the Project
-This project uses keyboard commands for navigation in both the menus and the table.
+### Command Reference
 
-**Mode Commands**  
-`s` : Show a summary of the database  
-`t` : Show the database as a table  
-`q` : Quit  
-`?` : Help
+#### View Commands
 
-**Table Commands**  
-`/` : Open filter mode  
-`h` : Scroll left  
-`j` : Scroll down  
-`k` : Scroll up  
-`l` : Scroll right  
-`g` : Go to top  
-`G` : Go to bottom  
+| Command | Short     | Description                    |
+| ------- | --------- | ------------------------------ |
+| s       | (s)ummary | Show a summary of the database |
+| t       | (t)able   | Show the database as a table   |
+| q       | (q)uit    | Quit                           |
+| ?       | help      | Show this help page            |
 
+#### Table Commands
+
+These commands are only available in the table view.
+
+| Command | Short        | Description                                                                                                                                           |
+| ------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| /       | filter       | Edit the table filter. Supports arbitrary text, which will do a full row search for that text (converts cells to strings, so eg. you can search for substrings of typed data). Also supports pandas-style expressions. `df` as well as each individual column are in the namespace; for instance, `name.isna() & salary >= salary.max() - 1e4` is a valid filter. |
+| h       | scroll left  | Scroll left one column in the table view                                                                                                              |
+| j       | scroll down  | Scroll down one page in the table view                                                                                                                |
+| k       | scroll up    | Scroll up one page in the table view                                                                                                                  |
+| l       | scroll right | Scroll right one column in the table view                                                                                                             |
+| g       | Go to top    | Go to the top of the table                                                                                                                            |
+| G       | Go to bottom | Go to the bottom of the table                                                                                                                         |
+## Installation
+
+This project requires `python` version 3.9. Replace `pip` with `pip3.9` below if `python` 3.9 is not your default version.
+
+You can install Dataset Viewer with `pip`:
+
+```shell
+# From local clone
+$ git clone https://github.com/doodletaco/dataset-viewer.git
+$ pip install --user dataset-viewer
+
+# Or directly from GitHub
+$ pip install --user git+https://github.com/doodletaco/dataset-viewer.git
+```
+    
 ## Contributing
+
+Contributions are always welcome!
 
 This project uses [Pipenv](https://pipenv.pypa.io/en/latest/) for package
 management and [pre-commit](https://pre-commit.com) to enforce linting
@@ -78,65 +116,15 @@ Alternatively, you can install it in the virtual environement with:
 $ pip install .
 ```
 
-### flake8: general style rules
 
-Our first and probably most important tool is flake8. It will run a set of plugins on your codebase and warn you about any non-conforming lines.
-Here is a sample output:
-```
-~> flake8
-./app.py:1:1: D100 Missing docstring in public module
-./app.py:1:6: N802 function name 'helloWorld' should be lowercase
-./app.py:1:16: E201 whitespace after '('
-./app.py:1:17: ANN001 Missing type annotation for function argument 'name'
-./app.py:1:23: ANN201 Missing return type annotation for public function
-./app.py:2:1: D400 First line should end with a period
-./app.py:2:1: D403 First word of the first line should be properly capitalized
-./app.py:3:19: E225 missing whitespace around operator
-```
+  
+## Authors
 
-Each line corresponds to an error. The first part is the file path, then the line number, and the column index.
-Then comes the error code, a unique identifier of the error, and then a human-readable message.
+Developed by the Purposeful Pangolins!
 
-If, for any reason, you do not wish to comply with this specific error on a specific line, you can add `# noqa: CODE` at the end of the line.
-For example:
-```python
-def helloWorld():  # noqa: N802
-    ...
-```
-will pass linting. Although we do not recommend ignoring errors unless you have a good reason to do so.
-
-It is run by calling `flake8` in the project root.
-
-#### Plugin List:
-
-- `flake8-annotations`: Checks your code for the presence of [type-hints](https://docs.python.org/3/library/typing.html).
-- `flake8-bandit`: Checks for common security breaches.
-- `flake8-docstring`: Checks that you properly documented your code.
-- `flake8-isort`: Makes sure you ran ISort on the project.
-
-### ISort: automatic import sorting
-
-This second tool will sort your imports according to the [PEP8](https://www.python.org/dev/peps/pep-0008/#imports). That's it! One less thing for you to do!
-
-It is run by calling `isort .` in the project root. Notice the dot at the end, it tells ISort to use the current directory.
-
-### Pre-commit: run linting before committing
-
-This third tool doesn't check your code, but rather makes sure that you actually *do* check it.
-
-It makes use of a feature called [Git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) which allow you to run a piece of code before running `git commit`.
-The good thing about it is that it will cancel your commit if the lint doesn't pass. You won't have to wait for Github Actions to report and have a second fix commit.
-
-It is *installed* by running `pre-commit install` and can be run manually by calling only `pre-commit`.
-
-[Lint before you push!](https://soundcloud.com/lemonsaurusrex/lint-before-you-push)
-
-#### Hooks List:
-
-- `check-toml`: Lints and corrects your TOML files.
-- `check-yaml`: Lints and corrects your YAML files.
-- `end-of-file-fixer`: Makes sure you always have an empty line at the end of your file.
-- `trailing-whitespaces`: Removes whitespaces at the end of each line.
-- `python-check-blanket-noqa`: Forbids you from using noqas on large pieces of code.
-- `isort`: Runs ISort.
-- `flake8`: Runs flake8.
+- [@bethebunny](https://github.com/bethebunny)
+- [@shoriminimoe](https://github.com/shoriminimoe)
+- [@doodletaco](https://github.com/doodletaco)
+- [@Brokames](https://github.com/Brokames)
+- [@grantmwilliams](https://github.com/grantmwilliams)
+- [@chrisgower](https://github.com/chrisgower)
